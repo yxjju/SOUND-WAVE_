@@ -1,0 +1,67 @@
+
+name: Build SOUND WAVE APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Find project folder
+        id: locate
+        run: |
+          FILE=$(find . -type f -name package.json -not -path '*/node_modules/*' | head -n 1)
+          if [ -z "$FILE" ]; then
+            echo "package.json was not found"
+            exit 1
+          fi
+          DIR=$(dirname "$FILE")
+          echo "project_dir=$DIR" >> "$GITHUB_OUTPUT"
+          echo "Found project in $DIR"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install dependencies
+        working-directory: ${{ steps.locate.outputs.project_dir }}
+        run: npm install
+
+      - name: Add Android platform
+        working-directory: ${{ steps.locate.outputs.project_dir }}
+        run: |
+          if [ ! -d android ]; then
+            npx cap add android
+          fi
+
+      - name: Sync Android
+        working-directory: ${{ steps.locate.outputs.project_dir }}
+        run: npx cap sync android
+
+      - name: Build APK
+        working-directory: ${{ steps.locate.outputs.project_dir }}
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SOUND-WAVE-APK
+          path: ${{ steps.locate.outputs.project_dir }}/android/app/build/outputs/apk/debug/app-debug.apk
+          
