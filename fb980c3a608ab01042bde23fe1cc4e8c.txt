@@ -1,0 +1,6 @@
+
+{
+  "appId": "com.soundwave.audio",
+  "appName": "SOUND WAVE",
+  "webDir": "www"
+}
