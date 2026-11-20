@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070b14">
+<title>SOUND WAVE</title>
+<style>
+:root{--bg:#070b14;--panel:#101827;--panel2:#0c1422;--blue:#27baff;--cyan:#68e0ff;--muted:#8fa3bb;--line:#1b2b40;--white:#eef7ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#12304c 0,transparent 45%),var(--bg);color:var(--white);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+.app{max-width:540px;margin:auto;min-height:100vh;padding:20px 16px 100px}
+header{display:flex;align-items:center;justify-content:space-between;margin:4px 0 24px}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#36caff,#1261d8);display:grid;place-items:center;box-shadow:0 0 24px #168bd855}
+.logo svg{width:25px}.brand h1{font-size:17px;letter-spacing:2px;margin:0}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.5px;margin-top:2px}
+.status{font-size:11px;color:#77e6bd;border:1px solid #245443;background:#10251f;padding:7px 10px;border-radius:99px}
+.hero{border:1px solid #1d4565;background:linear-gradient(140deg,#102a43,#0c1728 70%);border-radius:25px;padding:22px 20px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-90px;top:-95px;background:#1aa9ff20;filter:blur(2px)}
+.eyebrow{color:var(--cyan);font-size:10px;letter-spacing:2px;font-weight:800}.hero h2{font-size:27px;line-height:1.12;margin:10px 0 8px;max-width:280px}.hero p{color:#a8bbd0;font-size:13px;line-height:1.5;margin:0;max-width:290px}
+.wave{height:54px;display:flex;align-items:center;gap:4px;margin-top:17px}.wave i{width:4px;border-radius:5px;background:linear-gradient(#7deaff,#168bff);height:var(--h);opacity:.9;box-shadow:0 0 8px #24baff66}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:24px 2px 12px}.section-title h3{font-size:15px;margin:0}.section-title span{font-size:11px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.tile,.panel{background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:19px;padding:16px}
+.tile{min-height:128px;text-align:left;color:var(--white);cursor:pointer;transition:.2s}.tile:active{transform:scale(.98)}.tile .ico{width:38px;height:38px;border-radius:13px;background:#12334c;color:var(--cyan);display:grid;place-items:center;font-size:20px;margin-bottom:13px}.tile strong{display:block;font-size:13px}.tile small{display:block;color:var(--muted);font-size:10px;margin-top:5px;line-height:1.4}
+.panel{margin-top:12px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.muted{color:var(--muted);font-size:12px;line-height:1.5}
+button,.file-label{border:0;border-radius:13px;background:linear-gradient(100deg,#1ca9f4,#2369e8);color:white;font-weight:700;padding:12px 15px;font-size:12px;cursor:pointer;box-shadow:0 7px 20px #147de333}
+button.secondary{background:#14243a;border:1px solid #27415e;box-shadow:none;color:#d9efff}button:disabled{opacity:.5;cursor:not-allowed}
+input[type=range]{width:100%;accent-color:#29baff}input[type=file]{display:none}
+.track{display:flex;align-items:center;gap:12px}.cover{width:53px;height:53px;border-radius:13px;background:linear-gradient(135deg,#164b78,#14213c);display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.track-name{font-size:13px;font-weight:700;overflow-wrap:anywhere}.track-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.controls{display:flex;justify-content:center;align-items:center;gap:13px;margin-top:14px}.play{width:48px;height:48px;border-radius:50%;font-size:17px}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(540px,100%);padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:#080e19ed;backdrop-filter:blur(18px);border-top:1px solid #1c2a3b;display:flex;justify-content:space-around;z-index:5}
+.nav button{background:transparent;box-shadow:none;color:#8298b2;padding:7px 10px;font-size:10px}.nav button.active{color:#5bd5ff}.nav b{display:block;font-size:18px;margin-bottom:3px}
+.view{display:none}.view.active{display:block}
+input[type=text]{width:100%;background:#08111e;border:1px solid #263b54;border-radius:12px;padding:13px;color:white;outline:none;margin:8px 0 12px}
+.qrbox{width:170px;height:170px;border:1px dashed #3b6384;border-radius:18px;margin:16px auto;display:grid;place-items:center;text-align:center;color:var(--muted);padding:14px;background:#0a1422}
+.notice{font-size:11px;color:#9fb4ca;line-height:1.5;background:#0b1928;border:1px solid #1b3b56;border-radius:12px;padding:11px;margin-top:12px}
+.pill{font-size:10px;color:#8edfff;background:#10304a;border:1px solid #1b5479;padding:5px 8px;border-radius:99px}
+footer{text-align:center;color:#647b94;font-size:10px;margin-top:25px}
+@media(min-width:540px){.app{padding-top:28px}}
+</style>
+
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" href="./icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M3 10v4M7 6v12M11 3v18M15 7v10M19 10v4M22 11v2"/></svg></div><div><h1>SOUND WAVE</h1><small>CONNECT · LISTEN · EXPERIENCE</small></div></div>
+ <div class="status">● READY</div>
+</header>
+<main>
+<section id="home" class="view active">
+ <div class="hero"><div class="eyebrow">YOUR PERSONAL AUDIO UNIVERSE</div><h2>Sound without limits.</h2><p>Amplify nearby sound, enjoy your music and connect with people—with permission.</p>
+ <div class="wave" aria-hidden="true"><i style="--h:15px"></i><i style="--h:28px"></i><i style="--h:42px"></i><i style="--h:22px"></i><i style="--h:50px"></i><i style="--h:31px"></i><i style="--h:17px"></i><i style="--h:38px"></i><i style="--h:48px"></i><i style="--h:25px"></i><i style="--h:14px"></i><i style="--h:35px"></i><i style="--h:46px"></i><i style="--h:20px"></i><i style="--h:32px"></i><i style="--h:13px"></i><i style="--h:40px"></i><i style="--h:24px"></i><i style="--h:16px"></i></div></div>
+ <div class="section-title"><h3>Explore Sound Wave</h3><span>VERSION 0.1</span></div>
+ <div class="grid">
+  <button class="tile" onclick="showView('amplifier')"><div class="ico">🎙</div><strong>Sound Amplifier</strong><small>Use your microphone with permission</small></button>
+  <button class="tile" onclick="showView('pair')"><div class="ico">▦</div><strong>QR Pairing</strong><small>Connect with another consenting user</small></button>
+  <button class="tile" onclick="showView('music')"><div class="ico">♫</div><strong>My Music</strong><small>Play audio stored on this device</small></button>
+  <button class="tile" onclick="showView('spotify')"><div class="ico">◉</div><strong>Spotify</strong><small>Open Spotify and explore integration</small></button>
+ </div>
+ <div class="panel"><div class="row"><strong style="font-size:13px">Listening output</strong><span class="pill">DEVICE AUDIO</span></div><p class="muted">Connect your earbuds to this phone using Android Bluetooth settings. Sound Wave uses the phone's selected audio output.</p></div>
+</section>
+<section id="amplifier" class="view">
+ <div class="section-title"><h3>Sound Amplifier</h3><span>MICROPHONE</span></div>
+ <div class="panel">
+  <div class="row"><strong>Live microphone monitor</strong><span id="micStatus" class="pill">OFF</span></div>
+  <p class="muted">Allow microphone access, then use headphones. Keep the volume low at first to avoid feedback.</p>
+  <button id="micButton" onclick="toggleMic()">Enable microphone</button>
+  <div style="margin-top:18px"><div class="row"><label for="gain">Amplification</label><strong id="gainValue">2.0×</strong></div><input id="gain" type="range" min="1" max="5" step=".1" value="2" oninput="setGain(this.value)"></div>
+  <div class="notice">Microphone audio is processed on this device in this prototype. It is not streamed to another phone. A visible indicator appears while the microphone is active.</div>
+ </div>
+</section>
+<section id="pair" class="view">
+ <div class="section-title"><h3>Connect devices</h3><span>QR PAIRING</span></div>
+ <div class="panel">
+  <strong style="font-size:14px">Create a pairing session</strong>
+  <p class="muted">Create a temporary invitation for someone who agrees to receive your shared audio.</p>
+  <button onclick="createCode()">Create invitation</button>
+  <div id="pairResult" style="display:none">
+   <div class="qrbox"><div><div style="font-size:38px">▦</div><strong>QR setup required</strong><p style="font-size:10px">A secure QR code will be generated when the pairing server is connected.</p></div></div>
+   <div class="muted">Temporary demo code</div><div id="pairCode" style="font-size:25px;letter-spacing:5px;font-weight:800;margin:8px 0 14px"></div>
+   <button class="secondary" onclick="copyCode()">Copy code</button>
+  </div>
+  <div class="notice">This prototype does not yet connect devices. Real QR pairing needs a secure signaling service, expiring invitations and acceptance on the receiving phone.</div>
+ </div>
+ <div class="panel"><strong style="font-size:14px">Join an invitation</strong><input id="joinCode" type="text" placeholder="Enter invitation code"><button class="secondary" onclick="joinDemo()">Request to join</button><p id="joinMessage" class="muted"></p></div>
+</section>
+<section id="music" class="view">
+ <div class="section-title"><h3>My Music</h3><span>ON THIS DEVICE</span></div>
+ <div class="panel">
+  <label class="file-label" for="files">＋ Choose audio files</label><input id="files" type="file" accept="audio/*" multiple onchange="loadFiles(this.files)">
+  <p class="muted">Choose music files stored on this phone. Playback stays on this device.</p>
+  <div id="library" class="muted" style="margin-top:14px">Your selected songs will appear here.</div>
+ </div>
+ <div class="panel">
+  <div class="track"><div class="cover">♫</div><div style="min-width:0"><div id="trackName" class="track-name">Nothing playing</div><div id="trackSub" class="track-sub">Choose a song from your library</div></div></div>
+  <audio id="audio" style="width:100%;margin-top:15px" controls></audio>
+ </div>
+</section>
+<section id="spotify" class="view">
+ <div class="section-title"><h3>Spotify</h3><span>MUSIC SERVICE</span></div>
+ <div class="panel">
+  <div style="font-size:36px;margin-bottom:8px">🟢</div><strong style="font-size:16px">Bring Spotify into your Sound Wave experience</strong>
+  <p class="muted">Use Spotify's official app for music playback. Account linking and in-app playback controls can be added after registering Sound Wave with Spotify and implementing its approved authorization flow.</p>
+  <button onclick="window.open('https://open.spotify.com/','_blank','noopener')">Open Spotify</button>
+  <div class="notice">Spotify account linking is not active in this prototype. Availability of playback controls and sharing depends on Spotify's developer rules, account type and supported devices.</div>
+ </div>
+</section>
+</main>
+<footer>Sound Wave · Prototype 0.1 · Audio sharing requires clear permission</footer>
+</div>
+<nav class="nav">
+ <button class="active" data-view="home" onclick="showView('home')"><b>⌂</b>Home</button>
+ <button data-view="amplifier" onclick="showView('amplifier')"><b>♬</b>Amplify</button>
+ <button data-view="pair" onclick="showView('pair')"><b>▦</b>Connect</button>
+ <button data-view="music" onclick="showView('music')"><b>♫</b>Music</button>
+</nav>
+<script>
+let audioCtx=null, micStream=null, micSource=null, gainNode=null, currentCode='';
+function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));window.scrollTo(0,0)}
+function setGain(v){document.getElementById('gainValue').textContent=Number(v).toFixed(1)+'×';if(gainNode)gainNode.gain.setTargetAtTime(Number(v),audioCtx.currentTime,.04)}
+async function toggleMic(){const btn=document.getElementById('micButton');if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null;if(audioCtx)await audioCtx.close();audioCtx=null;gainNode=null;document.getElementById('micStatus').textContent='OFF';btn.textContent='Enable microphone';return}
+ try{micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});audioCtx=new (window.AudioContext||window.webkitAudioContext)();await audioCtx.resume();micSource=audioCtx.createMediaStreamSource(micStream);gainNode=audioCtx.createGain();gainNode.gain.value=Number(document.getElementById('gain').value);micSource.connect(gainNode);gainNode.connect(audioCtx.destination);document.getElementById('micStatus').textContent='LIVE';btn.textContent='Stop microphone'}catch(e){alert('Microphone access was not granted, or this browser does not support it. Try opening this page on HTTPS and allow microphone permission.');micStream=null}}
+let songs=[],songIndex=0;
+function loadFiles(files){songs=Array.from(files).filter(f=>f.type.startsWith('audio/'));const lib=document.getElementById('library');lib.innerHTML='';if(!songs.length){lib.textContent='No audio files selected.';return}songs.forEach((f,i)=>{const b=document.createElement('button');b.className='secondary';b.style='display:block;width:100%;text-align:left;margin:6px 0';b.textContent='♫  '+f.name;b.onclick=()=>playSong(i);lib.appendChild(b)});playSong(0)}
+function playSong(i){songIndex=i;const f=songs[i];if(!f)return;const url=URL.createObjectURL(f);const a=document.getElementById('audio');a.src=url;a.play().catch(()=>{});document.getElementById('trackName').textContent=f.name;document.getElementById('trackSub').textContent=(i+1)+' of '+songs.length+' · Local file'}
+function createCode(){currentCode=String(Math.floor(100000+Math.random()*900000));document.getElementById('pairCode').textContent=currentCode;document.getElementById('pairResult').style.display='block'}
+async function copyCode(){try{await navigator.clipboard.writeText(currentCode);alert('Demo invitation code copied.')}catch(e){alert('Invitation code: '+currentCode)}}
+function joinDemo(){const val=document.getElementById('joinCode').value.trim();document.getElementById('joinMessage').textContent=val?'Demo request noted. A real connection needs the Sound Wave pairing server.':'Enter an invitation code first.'}
+window.addEventListener('pagehide',()=>{if(micStream)micStream.getTracks().forEach(t=>t.stop())});
+
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+
+</script>
+</body></html>
